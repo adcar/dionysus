@@ -14,7 +14,7 @@ class Navbar extends Component {
 		}
 	}
 	updateHistory() {
-		this.props.history.push('/search/' + this.state.searchTerm)
+		this.props.history.push(`/search/${this.state.searchTerm}`)
 	}
 	handleChange(e) {
 		// Only do live updates on desktop browser, where on mobile (or anything else) you have to hit your (virtual) enter key

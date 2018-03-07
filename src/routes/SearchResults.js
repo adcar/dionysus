@@ -4,7 +4,7 @@ import Typography from 'material-ui/Typography'
 import { withStyles } from 'material-ui/styles'
 import Truncate from 'react-truncate'
 
-import WatchButton from './WatchButton'
+import WatchButton from '../components/WatchButton'
 const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
 const styles = theme => ({
@@ -21,6 +21,9 @@ const styles = theme => ({
 	button: {
 		marginBottom: theme.spacing.unit,
 		marginLeft: theme.spacing.unit
+	},
+	searchText: {
+		margin: theme.spacing.unit * 5
 	}
 })
 
@@ -102,6 +105,11 @@ class SearchResults extends Component {
 	render() {
 		return (
 			<div>
+				<div className={this.props.classes.searchText}>
+					<Typography style={{textAlign: 'center'}} variant="display1">Search results for <strong>{this.props.match.params.term}</strong></Typography>
+				</div>
+
+
 				<ul
 					style={{ marginLeft: 'auto', marginRight: 'auto', padding: 0 }}
 					className="searchResults"
