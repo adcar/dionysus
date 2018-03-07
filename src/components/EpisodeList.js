@@ -9,7 +9,7 @@ const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 const styles = theme => ({
 	paper: {
 		position: 'absolute',
-		width: '75vw',
+		width: '60vw',
 		backgroundColor: theme.palette.background.paper,
 		boxShadow: theme.shadows[5],
 	}
@@ -71,8 +71,6 @@ class EpisodeList extends Component {
 	}
 
 	render() {
-		const { classes } = this.props
-		console.log(this.state.tvInfo)
 		return (
 			<div>
 				<span>Season: {this.props.match.params.season}</span>
@@ -94,8 +92,8 @@ class EpisodeList extends Component {
 					open={this.state.open}
 					onClose={this.handleClose}
 				>
-					<div className={classes.paper} style={{left: '50%', marginLeft: 'calc((75vw / 2) * -1)', top: 50}}>
-						<Player autoPlay controls ref="player" style={{width: '500px', height: '100%'}}>
+					<div className="modalPlayer">
+						<Player autoPlay controls ref="player" >
 							<source src={this.state.mp4Source} type="video/mp4" />
               <source src={this.state.mkvSource} type="video/mkv" />
 						</Player>
