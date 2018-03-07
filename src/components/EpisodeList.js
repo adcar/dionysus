@@ -11,10 +11,9 @@ const styles = theme => ({
 		position: 'absolute',
 		width: '60vw',
 		backgroundColor: theme.palette.background.paper,
-		boxShadow: theme.shadows[5],
+		boxShadow: theme.shadows[5]
 	}
 })
-
 
 class EpisodeList extends Component {
 	constructor() {
@@ -42,27 +41,30 @@ class EpisodeList extends Component {
 		})
 	}
 	handleOpen = (index, e) => {
-    let seasonNumber = ''
-    let episodeNumber = ''
-    if (this.props.match.params.season < 10) {
-      seasonNumber = `0${this.props.match.params.season}`
-    } else {
-      seasonNumber = `${this.props.match.params.season}`
-    }
-    if (index + 1 < 10) {
-      episodeNumber = `0${index + 1}`
-    } else {
-      episodeNumber = `${index + 1}`
-    }
-    console.log(
-
-      this.props.showName
-    )
+		let seasonNumber = ''
+		let episodeNumber = ''
+		if (this.props.match.params.season < 10) {
+			seasonNumber = `0${this.props.match.params.season}`
+		} else {
+			seasonNumber = `${this.props.match.params.season}`
+		}
+		if (index + 1 < 10) {
+			episodeNumber = `0${index + 1}`
+		} else {
+			episodeNumber = `${index + 1}`
+		}
+		console.log(this.props.showName)
 		this.setState({ open: true })
 		this.setState({
 			currentEpisode: index + 1,
-			mp4Source: `https://ctvod.run/ctv/guestmod/${this.props.showName.replace(/[^\w\s]/gi, '').replace(/\s+/g, '.').toLowerCase()}.s${seasonNumber}e${episodeNumber}.mp4`,
-      mkvSource: `https://ctvod.run/ctv/guestmod/${this.props.showName.replace(/[^\w\s]/gi, '').replace(/\s+/g, '.').toLowerCase()}.s${seasonNumber}e${episodeNumber}.mkv`
+			mp4Source: `https://ctvod.run/ctv/guestmod/${this.props.showName
+				.replace(/[^\w\s]/gi, '')
+				.replace(/\s+/g, '.')
+				.toLowerCase()}.s${seasonNumber}e${episodeNumber}.mp4`,
+			mkvSource: `https://ctvod.run/ctv/guestmod/${this.props.showName
+				.replace(/[^\w\s]/gi, '')
+				.replace(/\s+/g, '.')
+				.toLowerCase()}.s${seasonNumber}e${episodeNumber}.mkv`
 		})
 	}
 
@@ -87,15 +89,16 @@ class EpisodeList extends Component {
 					))}
 				</List>
 				<Modal
+					className="modal"
 					aria-labelledby="simple-modal-title"
 					aria-describedby="simple-modal-description"
 					open={this.state.open}
 					onClose={this.handleClose}
 				>
-					<div className="modalPlayer">
-						<VideoPlayer autoPlay controls ref="player" >
+					<div className="videoPlayerWrapper">
+						<VideoPlayer autoPlay controls ref="player">
 							<source src={this.state.mp4Source} type="video/mp4" />
-              <source src={this.state.mkvSource} type="video/mkv" />
+							<source src={this.state.mkvSource} type="video/mkv" />
 						</VideoPlayer>
 					</div>
 				</Modal>

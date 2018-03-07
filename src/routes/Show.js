@@ -7,26 +7,47 @@ import List from 'material-ui/List'
 import Typography from 'material-ui/Typography'
 import { Route, Link } from 'react-router-dom'
 import EpisodeList from '../components/EpisodeList'
+import Hidden from 'material-ui/Hidden'
 import { ListItem, ListItemText } from 'material-ui/List'
+import MenuIcon from 'material-ui-icons/Menu'
+import IconButton from 'material-ui/IconButton'
 const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
-const drawerWidth = 140
+const drawerWidth = 200
 
 const styles = theme => ({
 	root: {
 		zIndex: 1,
-    flex: 1,
-    height: 'calc(100vh - 70px)',
+		flex: 1,
+		height: 'calc(100vh - 70px)',
 		overflow: 'hidden',
 		position: 'relative',
-		display: 'flex'
+		display: 'flex',
+		width: '100%',
 	},
+
+	navIconHide: {
+		[theme.breakpoints.up('md')]: {
+			display: 'none'
+		}
+	},
+
 	appBar: {
-		zIndex: theme.zIndex.drawer + 1
+		zIndex: theme.zIndex.drawer + 1,
+		position: 'absolute',
+		marginLeft: drawerWidth,
+		[theme.breakpoints.up('md')]: {
+			width: `calc(100% - ${drawerWidth}px)`
+		}
 	},
+
 	drawerPaper: {
 		position: 'relative',
-		width: drawerWidth
+		width: drawerWidth,
+		maxWidth: drawerWidth,
+		[theme.breakpoints.up('md')]: {
+			position: 'relative'
+		}
 	},
 	content: {
 		maxHeight: 'calc(100vh - 70px)',
@@ -47,8 +68,12 @@ class EpisodePicker extends Component {
 		super()
 		this.state = {
 			showInfo: {},
-			listItems: []
+			listItems: [],
+			mobileOpen: false
 		}
+	}
+	handleDrawerToggle = () => {
+		this.setState({ mobileOpen: !this.state.mobileOpen })
 	}
 	componentDidMount() {
 		tmdb.tvInfo({ id: this.props.match.params.id }, (err, res) => {
@@ -58,7 +83,7 @@ class EpisodePicker extends Component {
 					<Link
 						to={`${this.props.match.url}/${i}`}
 						style={{ textDecoration: 'none' }}
-            key={i}
+						key={i}
 					>
 						<ListItem button>
 							<ListItemText primary={`Season ${i}`} />
@@ -73,31 +98,64 @@ class EpisodePicker extends Component {
 		})
 	}
 	render() {
-		const { classes } = this.props
+		const { classes, theme } = this.props
 		return (
 			<div className={classes.root}>
 				<AppBar position="absolute" className={classes.appBar}>
 					<Toolbar className={classes.topbar}>
+						<IconButton
+							color="inherit"
+							aria-label="open drawer"
+							onClick={this.handleDrawerToggle}
+							className={classes.navIconHide}
+						>
+							<MenuIcon />
+						</IconButton>
+
 						<Typography variant="title" color="inherit" noWrap>
 							{this.state.showInfo.name}
 						</Typography>
 					</Toolbar>
 				</AppBar>
-				<Drawer
-					variant="permanent"
-					classes={{
-						paper: classes.drawerPaper
-					}}
-				>
-					<div className={classes.toolbar} />
-					<List>{this.state.listItems}</List>
-				</Drawer>
+
+				<Hidden mdUp>
+					<Drawer
+						variant="temporary"
+						anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+						open={this.state.mobileOpen}
+						onClose={this.handleDrawerToggle}
+						classes={{
+							paper: classes.drawerPaper
+						}}
+						ModalProps={{
+							keepMounted: true
+						}}
+					>
+						<List>{this.state.listItems}</List>
+					</Drawer>
+				</Hidden>
+				<Hidden smDown implementation="css">
+					<Drawer
+						variant="permanent"
+						open
+						classes={{
+							paper: classes.drawerPaper
+						}}
+					>
+						<List>{this.state.listItems}</List>
+					</Drawer>
+				</Hidden>
+
 				<main className={classes.content}>
 					<div className={classes.toolbar} />
 					<Route
 						path={`${this.props.match.url}/:season`}
 						render={props => (
-							<EpisodeList {...props} id={this.props.match.params.id} showName={this.state.showInfo.name} />
+							<EpisodeList
+								{...props}
+								id={this.props.match.params.id}
+								showName={this.state.showInfo.name}
+							/>
 						)}
 					/>
 				</main>
@@ -106,4 +164,4 @@ class EpisodePicker extends Component {
 	}
 }
 
-export default withStyles(styles)(EpisodePicker)
+export default withStyles(styles, { withTheme: true })(EpisodePicker)
