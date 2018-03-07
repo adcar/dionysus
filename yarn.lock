@@ -5814,7 +5814,14 @@ react-dev-utils@^5.0.0:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
-react-dom@^16.2.0:
+react-device-detect@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-0.1.0.tgz#91f249fb1034a3fdab86666f3babc73f8288c438"
+  dependencies:
+    react "^16.0.0"
+    react-dom "^16.0.0"
+
+react-dom@^16.0.0, react-dom@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
   dependencies:
@@ -5944,7 +5951,7 @@ react-truncate@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/react-truncate/-/react-truncate-2.3.0.tgz#d469b355aff1f83ae9e0f2fed0d47dfd061e5d2e"
 
-react@^16.2.0:
+react@^16.0.0, react@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
   dependencies:
