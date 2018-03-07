@@ -3,20 +3,14 @@ import Typography from 'material-ui/Typography'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Input from 'material-ui/Input'
-import { withStyles } from 'material-ui/styles'
-
-const styles = theme => ({
-	input: {
-		margin: theme.spacing.unit
-	}
-})
+import { withRouter, Link } from 'react-router-dom'
 
 class Navbar extends Component {
-  handleChange(e) {
-    this.props.onUpdate(e.target.value)
-  }
+	handleChange(e) {
+		console.log(e.target.value)
+		this.props.history.push('/search/' + e.target.value)
+	}
 	render() {
-		const { classes } = this.props
 		return (
 			<AppBar
 				position="static"
@@ -24,14 +18,15 @@ class Navbar extends Component {
 				style={{ justifyContent: 'center' }}
 			>
 				<Toolbar>
-					<Typography variant="title" color="inherit" style={{ flex: 1 }}>
-						Dionysus
-					</Typography>
+					<Link to="/" style={{ flex: 1, textDecoration: 'none'}}>
+						<Typography variant="title" >
+							Dionysus
+						</Typography>
+					</Link>
 					<Input
-            ref="myInput"
-            onChange={this.handleChange.bind(this)}
+						ref="myInput"
+						onChange={this.handleChange.bind(this)}
 						placeholder="Search Movies or TV Shows"
-						className={classes.input}
 					/>
 				</Toolbar>
 			</AppBar>
@@ -39,4 +34,4 @@ class Navbar extends Component {
 	}
 }
 
-export default withStyles(styles)(Navbar)
+export default withRouter(Navbar)

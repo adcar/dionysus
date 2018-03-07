@@ -1,4 +1,3 @@
-
 .main-search {
   padding: 1rem;
   margin: 0 auto;
@@ -15,6 +14,5 @@
 
 .searchResults {
   display: flex;
-  flex-wrap:wrap;
-
+  flex-wrap: wrap;
 }

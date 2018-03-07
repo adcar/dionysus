@@ -17,10 +17,20 @@ const styles = theme => ({
     margin: theme.spacing.unit * 2
   },
   media: {
-    height: 200,
+    height: 160,
   },
 });
-
+const MediaType = props => {
+  if (props.media === 'tv') {
+    return ('TV Show');
+  }
+  else if (props.media === 'movie') {
+    return ('Movie')
+  }
+  else {
+    return ('Unknown')
+  }
+}
 
 class SearchResults extends Component {
 	constructor() {
@@ -30,10 +40,8 @@ class SearchResults extends Component {
 			listItems: ''
 		}
 	}
-	componentWillReceiveProps(nextProps) {
+  handleSearch(term) {
     const { classes } = this.props
-    const { term } = nextProps
-    console.log(term)
     if (term !== '') {
       tmdb.searchMulti({ query: term }, (err, res) => {
         this.setState({
@@ -49,6 +57,9 @@ class SearchResults extends Component {
               <CardContent style={{flex: 1}}>
                   <Typography variant="headline" component="h2">
                     {item.title || item.name}
+                  </Typography>
+                  <Typography variant="subheading" component="h3" style={{marginBottom: 5, marginTop: 3}}>
+                    <MediaType media={item.media_type} />
                   </Typography>
                   <Typography component="p" style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>
                     <Truncate lines={5} ellipsis="...">
@@ -67,8 +78,13 @@ class SearchResults extends Component {
         })
       })
     }
-
+  }
+	componentWillReceiveProps(nextProps) {
+    this.handleSearch(nextProps.match.params.term)
 	}
+  componentDidMount() {
+    this.handleSearch(this.props.match.params.term)
+  }
 	render() {
 		return (
 			<div >
