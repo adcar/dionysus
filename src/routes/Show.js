@@ -10,13 +10,13 @@ import EpisodeList from '../components/EpisodeList'
 import { ListItem, ListItemText } from 'material-ui/List'
 const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
-const drawerWidth = 130
+const drawerWidth = 140
 
 const styles = theme => ({
 	root: {
 		zIndex: 1,
     flex: 1,
-    height: '100%',
+    height: 'calc(100vh - 70px)',
 		overflow: 'hidden',
 		position: 'relative',
 		display: 'flex'
@@ -29,13 +29,17 @@ const styles = theme => ({
 		width: drawerWidth
 	},
 	content: {
-
+		maxHeight: 'calc(100vh - 70px)',
+		overflowY: 'scroll',
 		backgroundColor: theme.palette.background.default,
 		padding: theme.spacing.unit * 3,
 		minWidth: 0 // So the Typography noWrap works
 	},
 
-	toolbar: theme.mixins.toolbar
+	toolbar: theme.mixins.toolbar,
+	topbar: {
+		height: 50
+	}
 })
 
 class EpisodePicker extends Component {
@@ -73,7 +77,7 @@ class EpisodePicker extends Component {
 		return (
 			<div className={classes.root}>
 				<AppBar position="absolute" className={classes.appBar}>
-					<Toolbar>
+					<Toolbar className={classes.topbar}>
 						<Typography variant="title" color="inherit" noWrap>
 							{this.state.showInfo.name}
 						</Typography>
