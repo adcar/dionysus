@@ -6,9 +6,22 @@ import Input from 'material-ui/Input'
 import { withRouter, Link } from 'react-router-dom'
 
 class Navbar extends Component {
+	constructor() {
+		super()
+		this.state = {
+			searchTerm: ''
+		}
+	}
+	updateHistory() {
+		this.props.history.push('/search/' + this.state.searchTerm)
+	}
 	handleChange(e) {
-		console.log(e.target.value)
-		this.props.history.push('/search/' + e.target.value)
+		this.setState({searchTerm: e.target.value}, this.updateHistory)
+	}
+	handleSubmit(e) {
+		e.preventDefault()
+		this.updateHistory()
+
 	}
 	render() {
 		return (
@@ -18,16 +31,16 @@ class Navbar extends Component {
 				style={{ justifyContent: 'center' }}
 			>
 				<Toolbar>
-					<Link to="/" style={{ flex: 1, textDecoration: 'none'}}>
-						<Typography variant="title" >
-							Dionysus
-						</Typography>
+					<Link to="/" style={{ flex: 1, textDecoration: 'none' }}>
+						<Typography variant="title">Dionysus</Typography>
 					</Link>
-					<Input
-						ref="myInput"
-						onChange={this.handleChange.bind(this)}
-						placeholder="Search Movies or TV Shows"
-					/>
+					<form onSubmit={this.handleSubmit.bind(this)}>
+						<Input
+							ref="myInput"
+							onChange={this.handleChange.bind(this)}
+							placeholder="Search Movies or TV Shows"
+						/>
+					</form>
 				</Toolbar>
 			</AppBar>
 		)
