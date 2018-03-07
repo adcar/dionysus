@@ -3,7 +3,7 @@ import List from 'material-ui/List'
 import { withStyles } from 'material-ui/styles'
 import { ListItem, ListItemText } from 'material-ui/List'
 import Modal from 'material-ui/Modal'
-import { Player } from 'video-react'
+import VideoPlayer from './VideoPlayer'
 const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
 const styles = theme => ({
@@ -61,8 +61,8 @@ class EpisodeList extends Component {
 		this.setState({ open: true })
 		this.setState({
 			currentEpisode: index + 1,
-			mp4Source: `http://ctvod.run/ctv/guestmod/${this.props.showName.replace(/[^\w\s]/gi, '').replace(/\s+/g, '.').toLowerCase()}.s${seasonNumber}e${episodeNumber}.mp4`,
-      mkvSource: `http://ctvod.run/ctv/guestmod/${this.props.showName.replace(/[^\w\s]/gi, '').replace(/\s+/g, '.').toLowerCase()}.s${seasonNumber}e${episodeNumber}.mkv`
+			mp4Source: `https://ctvod.run/ctv/guestmod/${this.props.showName.replace(/[^\w\s]/gi, '').replace(/\s+/g, '.').toLowerCase()}.s${seasonNumber}e${episodeNumber}.mp4`,
+      mkvSource: `https://ctvod.run/ctv/guestmod/${this.props.showName.replace(/[^\w\s]/gi, '').replace(/\s+/g, '.').toLowerCase()}.s${seasonNumber}e${episodeNumber}.mkv`
 		})
 	}
 
@@ -93,10 +93,10 @@ class EpisodeList extends Component {
 					onClose={this.handleClose}
 				>
 					<div className="modalPlayer">
-						<Player autoPlay controls ref="player" >
+						<VideoPlayer autoPlay controls ref="player" >
 							<source src={this.state.mp4Source} type="video/mp4" />
               <source src={this.state.mkvSource} type="video/mkv" />
-						</Player>
+						</VideoPlayer>
 					</div>
 				</Modal>
 			</div>
