@@ -18,7 +18,7 @@ const theme = createMuiTheme({
 })
 
 const App = props => (
-	<Router basename="/dionysus">
+	<Router>
 		<MuiThemeProvider theme={theme}>
 			<Reboot />
 			<Navbar />
