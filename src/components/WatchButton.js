@@ -12,7 +12,7 @@ const styles = theme => ({
 const WatchButton = props => {
 	if (props.type === 'movie') {
 		return (
-			<Link to={'/movie/' + props.id} style={{ textDecoration: 'none' }}>
+			<Link to={`/movie/${props.id}`} style={{ textDecoration: 'none' }}>
 				<Button
 					size="small"
 					color="primary"
@@ -25,7 +25,7 @@ const WatchButton = props => {
 		)
 	} else if (props.type === 'tv') {
 		return (
-			<Link to={'/show/' + props.id} style={{ textDecoration: 'none' }}>
+			<Link to={`/show/${props.id}/1`} style={{ textDecoration: 'none' }}>
 				<Button
 					size="small"
 					color="primary"
