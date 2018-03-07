@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import "../../node_modules/video-react/dist/video-react.css";
-import { Player } from 'video-react';
+import { Player } from 'video-react'
+
 const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
 

@@ -16,3 +16,9 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

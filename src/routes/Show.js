@@ -10,11 +10,13 @@ import EpisodeList from '../components/EpisodeList'
 import { ListItem, ListItemText } from 'material-ui/List'
 const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
-const drawerWidth = 240
+const drawerWidth = 130
 
 const styles = theme => ({
 	root: {
 		zIndex: 1,
+    flex: 1,
+    height: '100%',
 		overflow: 'hidden',
 		position: 'relative',
 		display: 'flex'
@@ -32,6 +34,7 @@ const styles = theme => ({
 		padding: theme.spacing.unit * 3,
 		minWidth: 0 // So the Typography noWrap works
 	},
+
 	toolbar: theme.mixins.toolbar
 })
 
@@ -53,7 +56,7 @@ class EpisodePicker extends Component {
 						style={{ textDecoration: 'none' }}
             key={i}
 					>
-						<ListItem button color="inherit">
+						<ListItem button>
 							<ListItemText primary={`Season ${i}`} />
 						</ListItem>
 					</Link>
@@ -90,7 +93,7 @@ class EpisodePicker extends Component {
 					<Route
 						path={`${this.props.match.url}/:season`}
 						render={props => (
-							<EpisodeList {...props} id={this.props.match.params.id} />
+							<EpisodeList {...props} id={this.props.match.params.id} showName={this.state.showInfo.name} />
 						)}
 					/>
 				</main>
