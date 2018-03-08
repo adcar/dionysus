@@ -64,7 +64,7 @@ class SearchResults extends Component {
 								<CardMedia
 									className={classes.media}
 									image={'https://image.tmdb.org/t/p/w500/' + item.poster_path}
-									title="Contemplative Reptile"
+									title={item.title || item.name + ' Poster'}
 								/>
 								<CardContent style={{ flex: 1 }}>
 									<Typography variant="headline" component="h2">

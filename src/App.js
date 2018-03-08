@@ -8,6 +8,7 @@ import Navbar from './components/Navbar'
 import SearchResults from './routes/SearchResults'
 import Movie from './routes/Movie'
 import Show from './routes/Show'
+import Home from './routes/Home'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 const theme = createMuiTheme({
@@ -22,6 +23,7 @@ const App = props => (
 		<MuiThemeProvider theme={theme}>
 			<Reboot />
 			<Navbar />
+			<Route path="/" exact component={Home} />
 			<Route path="/search/:term" component={SearchResults} />
 			<Route path="/movie/:id" component={Movie} />
 			<Route path="/show/:id" component={Show} />

@@ -33,7 +33,7 @@ class Navbar extends Component {
 			<AppBar
 				position="static"
 				color="default"
-				style={{ justifyContent: 'center' }}
+				style={{ justifyContent: 'center', zIndex: 10, position: 'relative' }}
 			>
 				<Toolbar>
 					<Link to="/" style={{ flex: 1, textDecoration: 'none' }}>
