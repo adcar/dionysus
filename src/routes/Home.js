@@ -46,7 +46,7 @@ class Home extends Component {
 		tmdb.discoverMovie({ sort_by: 'vote_count.desc' }, (err, res) => {
 			this.setState(
 				{
-					backgroundImg: `https://image.tmdb.org/t/p/original/${
+					backgroundImg: `https://image.tmdb.org/t/p/w1280/${
 						res.results[randIndex].backdrop_path
 					}`,
 
