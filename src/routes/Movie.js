@@ -40,7 +40,7 @@ class Movie extends Component {
 				<div>
 					<VideoPlayer>
 						<source src={this.state.mp4Source} type="video/mp4" />
-						<source src={this.state.mkvSource} type="video/mkv" />
+						<source src={this.state.mkvSource} />
 					</VideoPlayer >
 				</div>
 			)

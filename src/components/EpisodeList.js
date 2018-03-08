@@ -98,7 +98,7 @@ class EpisodeList extends Component {
 					<div className="videoPlayerWrapper">
 						<VideoPlayer autoPlay controls ref="player">
 							<source src={this.state.mp4Source} type="video/mp4" />
-							<source src={this.state.mkvSource} type="video/mkv" />
+							<source src={this.state.mkvSource} />
 						</VideoPlayer>
 					</div>
 				</Modal>
