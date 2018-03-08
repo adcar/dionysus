@@ -41,6 +41,7 @@ class Navbar extends Component {
 					</Link>
 					<form onSubmit={this.handleSubmit.bind(this)}>
 						<Input
+							type="search"
 							ref="myInput"
 							onChange={this.handleChange.bind(this)}
 							placeholder="Search Movies or TV Shows"

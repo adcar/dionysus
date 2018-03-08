@@ -4,6 +4,7 @@ import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
 import { Link } from 'react-router-dom'
 import PlayArrow from 'material-ui-icons/PlayArrow'
+
 const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
 const styles = theme => ({
