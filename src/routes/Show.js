@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withStyles } from 'material-ui/styles'
 import Drawer from 'material-ui/Drawer'
+import Divider from 'material-ui/Divider'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import List from 'material-ui/List'
@@ -63,6 +64,8 @@ const styles = theme => ({
 	}
 })
 
+
+
 class EpisodePicker extends Component {
 	constructor() {
 		super()
@@ -84,6 +87,7 @@ class EpisodePicker extends Component {
 						to={`${this.props.match.url}/${i}`}
 						style={{ textDecoration: 'none' }}
 						key={i}
+						onClick={this.handleDrawerToggle}
 					>
 						<ListItem button>
 							<ListItemText primary={`Season ${i}`} />
@@ -99,6 +103,12 @@ class EpisodePicker extends Component {
 	}
 	render() {
 		const { classes, theme } = this.props
+		const drawer = (<List>
+			<ListItem>Seasons</ListItem>
+			<Divider />
+			{this.state.listItems}
+		</List>)
+
 		return (
 			<div className={classes.root}>
 				<AppBar position="absolute" className={classes.appBar}>
@@ -131,7 +141,7 @@ class EpisodePicker extends Component {
 							keepMounted: true
 						}}
 					>
-						<List>{this.state.listItems}</List>
+						{drawer}
 					</Drawer>
 				</Hidden>
 				<Hidden smDown implementation="css">
@@ -142,7 +152,7 @@ class EpisodePicker extends Component {
 							paper: classes.drawerPaper
 						}}
 					>
-						<List>{this.state.listItems}</List>
+						{drawer}
 					</Drawer>
 				</Hidden>
 
