@@ -3,8 +3,6 @@ import VideoPlayer from '../components/VideoPlayer'
 
 const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
-
-
 class Movie extends Component {
 	constructor() {
 		super()
@@ -30,8 +28,6 @@ class Movie extends Component {
 						.toLowerCase() +
 					'.mkv'
 			})
-			//console.log(this.refs.player)
-      //this.refs.player.load();
 		})
 	}
 	render() {
@@ -41,16 +37,14 @@ class Movie extends Component {
 					<VideoPlayer>
 						<source src={this.state.mp4Source} type="video/mp4" />
 						<source src={this.state.mkvSource} />
-					</VideoPlayer >
+						Either this movie is not available or you need to uprgade your
+						browser to the latest version of Chrome
+					</VideoPlayer>
 				</div>
 			)
 		} else {
-			return (
-				<div></div>
-			)
+			return <div />
 		}
-
-
 	}
 }
 

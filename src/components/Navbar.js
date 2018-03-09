@@ -25,7 +25,6 @@ class Navbar extends Component {
 		}
 	}
 	handleSubmit(e) {
-		e.preventDefault()
 		this.updateHistory()
 	}
 	render() {
