@@ -25,6 +25,8 @@ class Navbar extends Component {
 		}
 	}
 	handleSubmit(e) {
+		e.preventDefault()
+		this.searchInput.blur()
 		this.updateHistory()
 	}
 	render() {
@@ -40,8 +42,10 @@ class Navbar extends Component {
 					</Link>
 					<form onSubmit={this.handleSubmit.bind(this)}>
 						<Input
+							inputRef={input => {
+								this.searchInput = input
+							}}
 							type="search"
-							ref="myInput"
 							onChange={this.handleChange.bind(this)}
 							placeholder="Search Movies or TV Shows"
 						/>
