@@ -27,9 +27,9 @@ const styles = theme => ({
 		maxWidth: '50em',
 		marginBottom: '0.5em'
 	},
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  }
+	rightIcon: {
+		marginLeft: theme.spacing.unit
+	}
 })
 
 class Home extends Component {
@@ -90,13 +90,12 @@ class Home extends Component {
 					{this.state.tagline}
 				</Typography>
 				<Link
-					to={`/movie/${this.state.info.id}`}
+					to={`/watch/movie/${this.state.info.id}`}
 					style={{ textDecoration: 'none' }}
 				>
 					<Button variant="raised" color="primary">
-
 						Watch
-            <PlayArrow className={classes.rightIcon}/>
+						<PlayArrow className={classes.rightIcon} />
 					</Button>
 				</Link>
 			</div>

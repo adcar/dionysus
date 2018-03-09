@@ -10,7 +10,5 @@ export default class VideoPlayer extends Component {
         </div>
       )
 
-
-
   }
 }

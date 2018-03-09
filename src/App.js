@@ -6,7 +6,7 @@ import Reboot from 'material-ui/Reboot'
 import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles'
 import Navbar from './components/Navbar'
 import SearchResults from './routes/SearchResults'
-import Movie from './routes/Movie'
+import Watch from './routes/Watch'
 import Show from './routes/Show'
 import Home from './routes/Home'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
@@ -25,7 +25,8 @@ const App = props => (
 			<Navbar />
 			<Route path="/" exact component={Home} />
 			<Route path="/search/:term" component={SearchResults} />
-			<Route path="/movie/:id" component={Movie} />
+			<Route path="/watch/movie/:id" component={Watch} />
+			<Route path="/watch/show/:id/:season_number/:episode_number" component={Watch} />
 			<Route path="/show/:id" component={Show} />
 		</MuiThemeProvider>
 	</Router>

@@ -1,98 +1,143 @@
 import React, { Component } from 'react'
 import { withStyles } from 'material-ui/styles'
+import PropTypes from 'prop-types'
 import Drawer from 'material-ui/Drawer'
 import Divider from 'material-ui/Divider'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import List from 'material-ui/List'
 import Typography from 'material-ui/Typography'
-import { Route, Link } from 'react-router-dom'
-import EpisodeList from '../components/EpisodeList'
-import Hidden from 'material-ui/Hidden'
+
+import Episodes from '../components/Episodes'
+//import Hidden from 'material-ui/Hidden'
 import { ListItem, ListItemText } from 'material-ui/List'
 import MenuIcon from 'material-ui-icons/Menu'
 import IconButton from 'material-ui/IconButton'
+import classNames from 'classnames'
+
+import ChevronLeftIcon from 'material-ui-icons/ChevronLeft'
+import ChevronRightIcon from 'material-ui-icons/ChevronRight'
+
 const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
 const drawerWidth = 200
-
 const styles = theme => ({
 	root: {
-		zIndex: 1,
-		flex: 1,
-		height: 'calc(100vh - 70px)',
-		overflow: 'hidden',
+		flexGrow: 1
+	},
+	appFrame: {
+		height: 430,
+		zIndex: 3,
 		position: 'relative',
 		display: 'flex',
-		width: '100%',
+		width: '100%'
 	},
-
-	navIconHide: {
-		[theme.breakpoints.up('md')]: {
-			display: 'none'
-		}
-	},
-
 	appBar: {
-		zIndex: theme.zIndex.drawer + 1,
+		zIndex: 3,
 		position: 'absolute',
-		marginLeft: drawerWidth,
-		[theme.breakpoints.up('md')]: {
-			width: `calc(100% - ${drawerWidth}px)`
-		}
+		transition: theme.transitions.create(['margin', 'width'], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen
+		})
 	},
-
+	appBarShift: {
+		width: `calc(100% - ${drawerWidth}px)`,
+		transition: theme.transitions.create(['margin', 'width'], {
+			easing: theme.transitions.easing.easeOut,
+			duration: theme.transitions.duration.enteringScreen
+		})
+	},
+	'appBarShift-left': {
+		marginLeft: drawerWidth
+	},
+	'appBarShift-right': {
+		marginRight: drawerWidth
+	},
+	menuButton: {
+		marginLeft: 12,
+		marginRight: 20
+	},
+	hide: {
+		display: 'none'
+	},
 	drawerPaper: {
 		position: 'relative',
-		width: drawerWidth,
-		maxWidth: drawerWidth,
-		[theme.breakpoints.up('md')]: {
-			position: 'relative'
-		}
+		width: drawerWidth
+	},
+	drawerHeader: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		padding: '0 8px',
+		...theme.mixins.toolbar
 	},
 	content: {
-		maxHeight: 'calc(100vh - 70px)',
-		overflowY: 'scroll',
+		flexGrow: 1,
 		backgroundColor: theme.palette.background.default,
 		padding: theme.spacing.unit * 3,
-		minWidth: 0 // So the Typography noWrap works
+		transition: theme.transitions.create('margin', {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen
+		})
 	},
-
-	toolbar: theme.mixins.toolbar,
-	topbar: {
-		height: 50
+	'content-left': {
+		marginLeft: -drawerWidth
+	},
+	'content-right': {
+		marginRight: -drawerWidth
+	},
+	contentShift: {
+		transition: theme.transitions.create('margin', {
+			easing: theme.transitions.easing.easeOut,
+			duration: theme.transitions.duration.enteringScreen
+		})
+	},
+	'contentShift-left': {
+		marginLeft: 0
+	},
+	'contentShift-right': {
+		marginRight: 0
 	}
 })
 
-
-
-class EpisodePicker extends Component {
+class SeasonPicker extends Component {
 	constructor() {
 		super()
+		this.handleSeasonChange = this.handleSeasonChange.bind(this)
 		this.state = {
-			showInfo: {},
+			open: false,
 			listItems: [],
-			mobileOpen: false
+			showInfo: {},
+			currentSeason: 1 // Default to start at season 1
 		}
 	}
-	handleDrawerToggle = () => {
-		this.setState({ mobileOpen: !this.state.mobileOpen })
+
+	handleDrawerOpen = () => {
+		this.setState({ open: true })
 	}
+
+	handleDrawerClose = () => {
+		this.setState({ open: false })
+	}
+	handleSeasonChange = (season, e) => {
+		this.setState({
+			currentSeason: season
+		})
+		this.handleDrawerClose()
+	}
+
 	componentDidMount() {
 		tmdb.tvInfo({ id: this.props.match.params.id }, (err, res) => {
 			let listItems = []
 			for (let i = 1; i <= res.number_of_seasons; i++) {
 				listItems.push(
-					<Link
-						to={`${this.props.match.url}/${i}`}
-						style={{ textDecoration: 'none' }}
+					<ListItem
 						key={i}
-						onClick={this.handleDrawerToggle}
+						onClick={e => this.handleSeasonChange(i, e)}
+						button
 					>
-						<ListItem button>
-							<ListItemText primary={`Season ${i}`} />
-						</ListItem>
-					</Link>
+						<ListItemText primary={`Season ${i}`} />
+					</ListItem>
 				)
 			}
 			this.setState({
@@ -101,77 +146,80 @@ class EpisodePicker extends Component {
 			})
 		})
 	}
+
 	render() {
 		const { classes, theme } = this.props
-		const drawer = (<List>
-			<ListItem>Seasons</ListItem>
-			<Divider />
-			{this.state.listItems}
-		</List>)
+		const { open, showInfo, currentSeason } = this.state
+
+		const drawer = (
+			<Drawer
+				variant="persistent"
+				anchor="left"
+				open={open}
+				classes={{
+					paper: classes.drawerPaper
+				}}
+			>
+				<div className={classes.drawerHeader}>
+					<IconButton onClick={this.handleDrawerClose}>
+						{theme.direction === 'rtl' ? (
+							<ChevronRightIcon />
+						) : (
+							<ChevronLeftIcon />
+						)}
+					</IconButton>
+				</div>
+				<Divider />
+				<List>
+					<ListItem>Seasons</ListItem>
+				</List>
+				<Divider />
+				<List>{this.state.listItems}</List>
+			</Drawer>
+		)
 
 		return (
 			<div className={classes.root}>
-				<AppBar position="absolute" className={classes.appBar}>
-					<Toolbar className={classes.topbar}>
-						<IconButton
-							color="inherit"
-							aria-label="open drawer"
-							onClick={this.handleDrawerToggle}
-							className={classes.navIconHide}
-						>
-							<MenuIcon />
-						</IconButton>
-
-						<Typography variant="title" color="inherit" noWrap>
-							{this.state.showInfo.name}
-						</Typography>
-					</Toolbar>
-				</AppBar>
-
-				<Hidden mdUp>
-					<Drawer
-						variant="temporary"
-						anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-						open={this.state.mobileOpen}
-						onClose={this.handleDrawerToggle}
-						classes={{
-							paper: classes.drawerPaper
-						}}
-						ModalProps={{
-							keepMounted: true
-						}}
+				<div className={classes.appFrame}>
+					<AppBar
+						className={classNames(classes.appBar, {
+							[classes.appBarShift]: open,
+							[classes[`appBarShift-left`]]: open
+						})}
 					>
-						{drawer}
-					</Drawer>
-				</Hidden>
-				<Hidden smDown implementation="css">
-					<Drawer
-						variant="permanent"
-						open
-						classes={{
-							paper: classes.drawerPaper
-						}}
+						<Toolbar disableGutters={!open}>
+							<IconButton
+								color="inherit"
+								aria-label="open drawer"
+								onClick={this.handleDrawerOpen}
+								className={classNames(classes.menuButton, open && classes.hide)}
+							>
+								<MenuIcon />
+							</IconButton>
+							<Typography variant="title" color="inherit" noWrap>
+								{showInfo.name}
+							</Typography>
+						</Toolbar>
+					</AppBar>
+					{drawer}
+					<main
+						className={classNames(classes.content, classes[`content-left`], {
+							[classes.contentShift]: open,
+							[classes[`contentShift-left`]]: open
+						})}
 					>
-						{drawer}
-					</Drawer>
-				</Hidden>
-
-				<main className={classes.content}>
-					<div className={classes.toolbar} />
-					<Route
-						path={`${this.props.match.url}/:season`}
-						render={props => (
-							<EpisodeList
-								{...props}
-								id={this.props.match.params.id}
-								showName={this.state.showInfo.name}
-							/>
-						)}
-					/>
-				</main>
+						<div className={classes.drawerHeader} />
+						<Episodes season={currentSeason} id={this.props.match.params.id}/>
+					</main>
+				</div>
 			</div>
 		)
 	}
 }
 
-export default withStyles(styles, { withTheme: true })(EpisodePicker)
+SeasonPicker.propTypes = {
+	classes: PropTypes.object.isRequired,
+	theme: PropTypes.object.isRequired
+}
+
+export default withStyles(styles, { withTheme: true })(SeasonPicker)
