@@ -16,7 +16,7 @@ const WatchButton = props => {
 				<Button
 					size="small"
 					color="primary"
-					variant="raised"
+					variant="flat"
 					className={props.classes.button}
 				>
 					Watch
@@ -29,7 +29,7 @@ const WatchButton = props => {
 				<Button
 					size="small"
 					color="primary"
-					variant="raised"
+					variant="flat"
 					className={props.classes.button}
 				>
 					Watch
@@ -37,7 +37,7 @@ const WatchButton = props => {
 			</Link>
 		)
 	} else {
-    return ('')
-  }
+		return ''
+	}
 }
 export default withStyles(styles)(WatchButton)

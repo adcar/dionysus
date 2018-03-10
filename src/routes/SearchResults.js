@@ -13,7 +13,7 @@ const styles = theme => ({
 		flexDirection: 'column',
 		height: 500,
 		width: 300,
-		margin: theme.spacing.unit * 2
+		margin: theme.spacing.unit
 	},
 	media: {
 		height: 250
@@ -24,6 +24,11 @@ const styles = theme => ({
 	},
 	searchText: {
 		margin: theme.spacing.unit * 5
+	},
+	cardWrapper: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'center'
 	}
 })
 
@@ -52,45 +57,36 @@ class SearchResults extends Component {
 				this.setState({
 					results: res.results,
 					listItems: res.results.map(item => (
-						<li
-							key={item.id}
-							style={{
-								listStyleType: 'none',
-								marginLeft: 'auto',
-								marginRight: 'auto'
-							}}
-						>
-							<Card className={classes.card}>
-								<CardMedia
-									className={classes.media}
-									image={'https://image.tmdb.org/t/p/w500/' + item.poster_path}
-									title={item.title || item.name + ' Poster'}
-								/>
-								<CardContent style={{ flex: 1 }}>
-									<Typography variant="headline" component="h2">
-										{item.title || item.name}
-									</Typography>
-									<Typography
-										variant="subheading"
-										component="h3"
-										style={{ marginBottom: 5, marginTop: 3 }}
-									>
-										<MediaType media={item.media_type} />
-									</Typography>
-									<Typography
-										component="p"
-										style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-									>
-										<Truncate lines={5} ellipsis="...">
-											{item.overview}
-										</Truncate>
-									</Typography>
-								</CardContent>
-								<CardActions>
-									<WatchButton id={item.id} type={item.media_type}/>
-								</CardActions>
-							</Card>
-						</li>
+						<Card className={classes.card} key={item.id}>
+							<CardMedia
+								className={classes.media}
+								image={'https://image.tmdb.org/t/p/w500/' + item.poster_path}
+								title={item.title || item.name + ' Poster'}
+							/>
+							<CardContent style={{ flex: 1 }}>
+								<Typography variant="headline" component="h2">
+									{item.title || item.name}
+								</Typography>
+								<Typography
+									variant="subheading"
+									component="h3"
+									style={{ marginBottom: 5, marginTop: 3 }}
+								>
+									<MediaType media={item.media_type} />
+								</Typography>
+								<Typography
+									component="p"
+									style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
+								>
+									<Truncate lines={5} ellipsis="...">
+										{item.overview}
+									</Truncate>
+								</Typography>
+							</CardContent>
+							<CardActions>
+								<WatchButton id={item.id} type={item.media_type} />
+							</CardActions>
+						</Card>
 					))
 				})
 			})
@@ -103,19 +99,15 @@ class SearchResults extends Component {
 		this.handleSearch(this.props.match.params.term)
 	}
 	render() {
+		const { classes } = this.props
 		return (
 			<div>
 				<div className={this.props.classes.searchText}>
-					<Typography style={{textAlign: 'center'}} variant="display1">Search results for <strong>{this.props.match.params.term}</strong></Typography>
+					<Typography style={{ textAlign: 'center' }} variant="display1">
+						Search results for <strong>{this.props.match.params.term}</strong>
+					</Typography>
 				</div>
-
-
-				<ul
-					style={{ marginLeft: 'auto', marginRight: 'auto', padding: 0 }}
-					className="searchResults"
-				>
-					{this.state.listItems}
-				</ul>
+				<div className={classes.cardWrapper}>{this.state.listItems}</div>
 			</div>
 		)
 	}

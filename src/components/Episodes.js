@@ -18,7 +18,7 @@ const styles = theme => ({
 	},
 	media: {
 		height: 200,
-    width: 345
+		width: 345
 	},
 	cardsContainer: {
 		width: '100%',
@@ -46,7 +46,7 @@ class Episode extends Component {
 			{ id: nextProps.id, season_number: nextProps.season },
 			(err, res) => {
 				this.setState({
-					episodes: res.episodes.map(episode => (
+					episodes: res.episodes.map((episode, index) => (
 						<Card className={classes.card} key={episode.id}>
 							<CardMedia
 								className={classes.media}
@@ -57,6 +57,9 @@ class Episode extends Component {
 								<Typography variant="headline" component="h2">
 									{episode.name}
 								</Typography>
+								<Typography variant="subheading" component="h3">
+									{`S:${episode.season_number} E:${episode.episode_number}`}
+								</Typography>
 								<Typography component="p">
 									<Truncate lines={4} ellipsis="...">
 										{episode.overview}
@@ -64,11 +67,16 @@ class Episode extends Component {
 								</Typography>
 							</CardContent>
 							<CardActions>
-                <Link to={`/watch/show/${nextProps.id}/${episode.season_number}/${episode.episode_number}`} style={{textDecoration: 'none'}}>
-                  <Button size="small" color="primary">
-                    Watch
-                  </Button>
-                </Link>
+								<Link
+									to={`/watch/show/${nextProps.id}/${episode.season_number}/${
+										episode.episode_number
+									}`}
+									style={{ textDecoration: 'none' }}
+								>
+									<Button size="small" color="primary">
+										Watch
+									</Button>
+								</Link>
 							</CardActions>
 						</Card>
 					))
