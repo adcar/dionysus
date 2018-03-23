@@ -8,10 +8,9 @@ import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import ArrowBack from 'material-ui-icons/ArrowBack'
 import { withRouter } from 'react-router-dom'
-import VideoPlayer from '../components/VideoPlayer'
 const tmdb = require('moviedb')('2e0bfe56b018618b270a6e0428559292')
 
-const styles = {
+const styles = theme => ({
 	root: {
 		flexGrow: 1
 	},
@@ -21,8 +20,21 @@ const styles = {
 	menuButton: {
 		marginLeft: -12,
 		marginRight: 20
+	},
+	playerWrapper: {
+		marginTop: theme.spacing.unit * 3,
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	player: {
+		border: 'none',
+		margin: '0 auto',
+		width: '71vw',
+		height: 'calc(71vw * 9/16)'
 	}
-}
+})
 
 class Watch extends Component {
 	constructor() {
@@ -38,7 +50,6 @@ class Watch extends Component {
 		if (this.props.match.path.includes('show')) {
 			const { id, season_number, episode_number } = this.props.match.params
 			tmdb.tvEpisodeInfo({ id, season_number, episode_number }, (err, res) => {
-
 				this.setState({
 					info: res
 				})
@@ -56,102 +67,73 @@ class Watch extends Component {
 				} else {
 					episodeNumber = `${episode_number}`
 				}
-				this.setState({
-					mp4Source: `https://ctvod.run/ctv/guestmod/${res.name
-						.replace(/[^\w\s]/gi, '')
-						.replace(/\s+/g, '.')
-						.toLowerCase()}.s${seasonNumber}e${episodeNumber}.mp4`,
-					mkvSource: `https://ctvod.run/ctv/guestmod/${res.name
-						.replace(/[^\w\s]/gi, '')
-						.replace(/\s+/g, '.')
-						.toLowerCase()}.s${seasonNumber}e${episodeNumber}.mkv`
-				})
+				fetch(
+					`https://dionysus-api.herokuapp.com/show/${res.name.replace(
+						/[^\w\s]/gi,
+						''
+					)}/${season_number}/${episode_number}`
+				)
+					.then(res => res.json())
+					.then(json =>
+						this.setState({
+							source: json.openload[0]
+						})
+					)
 			})
-
-
 		}
 		if (this.props.match.path.includes('movie')) {
 			const { id } = this.props.match.params
 			tmdb.movieInfo({ id }, (err, res) => {
-				this.setState({
-					info: res,
-					mp4Source:
-						'https://ctvod.run/ctv/guestmod/' +
+				fetch(
+					`https://dionysus-api.herokuapp.com/movie/${
 						res.title
-							.replace(/[^\w\s]/gi, '')
-							.replace(/\s+/g, '.')
-							.toLowerCase() +
-						'.mp4',
-					mkvSource:
-						'https://ctvod.run/ctv/guestmod/' +
-						res.title
-							.replace(/[^\w\s]/gi, '')
-							.replace(/\s+/g, '.')
-							.toLowerCase() +
-						'.mkv'
-				})
+					}/${res.release_date.slice(0, 4)}`
+				)
+					.then(res => res.json())
+					.then(json =>
+						this.setState({
+							info: res,
+							source: json.openload[0]
+						})
+					)
 			})
 		}
 	}
 	render() {
 		const { classes } = this.props
 		const { info } = this.state
-			if (this.state.mp4Source && this.state.mkvSource) {
-				return (
-					<div className={classes.root}>
-						<AppBar position="static" style={{zIndex: 3, position: 'relative'}}>
-							<Toolbar>
-								<IconButton
-									className={classes.menuButton}
-									color="inherit"
-									aria-label="Menu"
-									onClick={this.handleBackButton.bind(this)}
-								>
-									<ArrowBack />
-								</IconButton>
-								<Typography
-									variant="title"
-									color="inherit"
-									className={classes.flex}
-								>
-									{info.name || info.title}
-								</Typography>
-							</Toolbar>
-						</AppBar>
-						<VideoPlayer>
-							<source src={this.state.mp4Source} type="video/mp4" />
-							<source src={this.state.mkvSource} />
-							Either this movie is not available or you need to uprgade your
-							browser to the latest version of Chrome
-						</VideoPlayer>
+		if (true) {
+			return (
+				<div className={classes.root}>
+					<AppBar position="static" style={{ zIndex: 3, position: 'relative' }}>
+						<Toolbar>
+							<IconButton
+								className={classes.menuButton}
+								color="inherit"
+								aria-label="Menu"
+								onClick={this.handleBackButton.bind(this)}
+							>
+								<ArrowBack />
+							</IconButton>
+							<Typography
+								variant="title"
+								color="inherit"
+								className={classes.flex}
+							>
+								{info.name || info.title}
+							</Typography>
+						</Toolbar>
+					</AppBar>
+					<div className={classes.playerWrapper}>
+						<iframe
+							title="Video"
+							src={this.state.source}
+							className={classes.player}
+						/>
 					</div>
-
-				)
-			} else {
-				return (
-					<div className={classes.root}>
-						<AppBar position="static" style={{zIndex: 3, position: 'relative'}}>
-							<Toolbar>
-								<IconButton
-									className={classes.menuButton}
-									color="inherit"
-									aria-label="Menu"
-									onClick={this.handleBackButton.bind(this)}
-								>
-									<ArrowBack />
-								</IconButton>
-								<Typography
-									variant="title"
-									color="inherit"
-									className={classes.flex}
-								>
-									{info.name || info.title}
-								</Typography>
-							</Toolbar>
-						</AppBar>
-					</div>
-				)
-			}
+				</div>
+			)
+		}
 	}
 }
 

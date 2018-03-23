@@ -10,9 +10,8 @@ body {
   justify-content: center;
   height: 100vh;
   max-width: 500px; }
-
-.main-search input {
-  width: 100%; }
+  .main-search input {
+    width: 100%; }
 
 .searchResults {
   display: flex;
