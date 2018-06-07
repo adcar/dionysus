@@ -25,8 +25,8 @@ const App = props => (
 			<Navbar />
 			<Route path="/" exact component={Home} />
 			<Route path="/search/:term" component={SearchResults} />
-			<Route path="/watch/movie/:id" component={Watch} />
-			<Route path="/watch/show/:id/:season_number/:episode_number" component={Watch} />
+			<Route path="/watch/" component={Watch} />
+
 			<Route path="/show/:id" component={Show} />
 		</MuiThemeProvider>
 	</Router>
