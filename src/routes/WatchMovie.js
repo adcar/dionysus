@@ -9,9 +9,7 @@ class WatchMovie extends Component {
 	}
 	componentDidMount() {
 		this.setState({
-			source: `https://videospider.in/getvideo?key=KTuojUiVZuz69WKn&video_id=${
-				this.props.match.params.id
-			}&tmdb=1`
+			source: `https://www.youtube.com/watch?v=dQw4w9WgXcQ`
 		})
 	}
 	render() {
