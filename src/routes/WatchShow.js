@@ -11,7 +11,7 @@ class WatchShow extends Component {
 		const { id, season_number, episode_number } = this.props.match.params
 
 		this.setState({
-			source: `https://videospider.in/getvideo?key=KTuojUiVZuz69WKn&video_id=${id}&s=${season_number}&e=${episode_number}&tmdb=1&tv=1`
+			source: `https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4`
 		})
 	}
 	render() {
